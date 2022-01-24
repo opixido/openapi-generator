@@ -2,6 +2,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
 {
     public const DISCRIMINATOR = {{#discriminator}}'{{discriminatorName}}'{{/discriminator}}{{^discriminator}}null{{/discriminator}};
 
+    public $setVars = [];
+
     /**
       * The original name of the model.
       *
@@ -360,7 +362,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         {{/minItems}}
         {{/hasValidation}}
         $this->container['{{name}}'] = ${{name}};
-
+        $this->setVars[str_replace('_','',strtolower('{{name}}'))] = true;
         return $this;
     }
     {{/vars}}

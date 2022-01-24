@@ -88,7 +88,7 @@ class ObjectSerializer
                             }
                         }
                     }
-                    if ($value !== null) {
+                    if (isset($data->setVars[str_replace('_','',strtolower($property))])) {
                         $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $openAPIType, $formats[$property]);
                     }
                 }
