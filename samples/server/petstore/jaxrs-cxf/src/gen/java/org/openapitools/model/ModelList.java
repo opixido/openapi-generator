@@ -1,10 +1,12 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class ModelList  {
   
@@ -28,6 +30,23 @@ public class ModelList  {
     return this;
   }
 
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      ModelList _list = (ModelList) o;
+      return Objects.equals(_123list, _list._123list);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(_123list);
+    }
 
   @Override
   public String toString() {

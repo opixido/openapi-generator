@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class Pet  {
   
   @ApiModelProperty(value = "")
@@ -28,7 +29,7 @@ public class Pet  {
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   @ApiModelProperty(value = "")
   @Valid
@@ -195,6 +196,28 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
     return this;
   }
 
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      Pet pet = (Pet) o;
+      return Objects.equals(id, pet.id) &&
+          Objects.equals(category, pet.category) &&
+          Objects.equals(name, pet.name) &&
+          Objects.equals(photoUrls, pet.photoUrls) &&
+          Objects.equals(tags, pet.tags) &&
+          Objects.equals(status, pet.status);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(id, category, name, photoUrls, tags, status);
+    }
 
   @Override
   public String toString() {

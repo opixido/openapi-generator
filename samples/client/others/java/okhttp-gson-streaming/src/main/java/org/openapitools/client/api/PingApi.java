@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.InputStream;
+import javax.ws.rs.core.GenericType;
 
 public class PingApi {
     private ApiClient localVarApiClient;
@@ -87,7 +88,6 @@ public class PingApi {
      */
     public okhttp3.Call postPingCall(SomeObj someObj, final ApiCallback _callback) throws ApiException {
         String basePath = null;
-
         // Operation Servers
         String[] localBasePaths = new String[] {  };
 

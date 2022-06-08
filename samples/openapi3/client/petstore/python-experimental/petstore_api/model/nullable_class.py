@@ -12,6 +12,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 import typing  # noqa: F401
+import functools  # noqa: F401
 
 from frozendict import frozendict  # noqa: F401
 
@@ -31,6 +32,7 @@ from petstore_api.schemas import (  # noqa: F401
     Float32Schema,
     Float64Schema,
     NumberSchema,
+    UUIDSchema,
     DateSchema,
     DateTimeSchema,
     DecimalSchema,
@@ -38,7 +40,7 @@ from petstore_api.schemas import (  # noqa: F401
     BinarySchema,
     NoneSchema,
     none_type,
-    InstantiationMetadata,
+    Configuration,
     Unset,
     unset,
     ComposedBase,
@@ -47,7 +49,12 @@ from petstore_api.schemas import (  # noqa: F401
     NoneBase,
     StrBase,
     IntBase,
+    Int32Base,
+    Int64Base,
+    Float32Base,
+    Float64Base,
     NumberBase,
+    UUIDBase,
     DateBase,
     DateTimeBase,
     BoolBase,
@@ -79,12 +86,12 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[int, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
         ) -> 'integer_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
             )
     
     
@@ -98,12 +105,12 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[float, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
         ) -> 'number_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
             )
     
     
@@ -117,12 +124,12 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[bool, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
         ) -> 'boolean_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
             )
     
     
@@ -136,12 +143,12 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[str, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
         ) -> 'string_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
             )
     
     
@@ -155,12 +162,12 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
         ) -> 'date_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
             )
     
     
@@ -174,12 +181,12 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
         ) -> 'datetime_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
             )
     
     
@@ -193,12 +200,12 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[list, tuple, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
         ) -> 'array_nullable_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
             )
     
     
@@ -212,12 +219,12 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[list, tuple, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
         ) -> 'array_and_items_nullable_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
             )
     
     
@@ -236,13 +243,13 @@ class NullableClass(
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, None, ],
-                _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
             ) -> '_items':
                 return super().__new__(
                     cls,
                     *args,
-                    _instantiation_metadata=_instantiation_metadata,
+                    _configuration=_configuration,
                     **kwargs,
                 )
     
@@ -258,13 +265,13 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'object_nullable_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
     
@@ -287,26 +294,26 @@ class NullableClass(
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, None, ],
-                _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
             ) -> '_additional_properties':
                 return super().__new__(
                     cls,
                     *args,
-                    _instantiation_metadata=_instantiation_metadata,
+                    _configuration=_configuration,
                     **kwargs,
                 )
     
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'object_and_items_nullable_prop':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
     
@@ -326,13 +333,13 @@ class NullableClass(
             def __new__(
                 cls,
                 *args: typing.Union[dict, frozendict, None, ],
-                _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+                _configuration: typing.Optional[Configuration] = None,
                 **kwargs: typing.Type[Schema],
             ) -> '_additional_properties':
                 return super().__new__(
                     cls,
                     *args,
-                    _instantiation_metadata=_instantiation_metadata,
+                    _configuration=_configuration,
                     **kwargs,
                 )
     
@@ -340,13 +347,13 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> 'object_items_nullable':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
     
@@ -361,13 +368,13 @@ class NullableClass(
         def __new__(
             cls,
             *args: typing.Union[dict, frozendict, None, ],
-            _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+            _configuration: typing.Optional[Configuration] = None,
             **kwargs: typing.Type[Schema],
         ) -> '_additional_properties':
             return super().__new__(
                 cls,
                 *args,
-                _instantiation_metadata=_instantiation_metadata,
+                _configuration=_configuration,
                 **kwargs,
             )
 
@@ -387,7 +394,7 @@ class NullableClass(
         object_nullable_prop: typing.Union[object_nullable_prop, Unset] = unset,
         object_and_items_nullable_prop: typing.Union[object_and_items_nullable_prop, Unset] = unset,
         object_items_nullable: typing.Union[object_items_nullable, Unset] = unset,
-        _instantiation_metadata: typing.Optional[InstantiationMetadata] = None,
+        _configuration: typing.Optional[Configuration] = None,
         **kwargs: typing.Type[Schema],
     ) -> 'NullableClass':
         return super().__new__(
@@ -405,6 +412,6 @@ class NullableClass(
             object_nullable_prop=object_nullable_prop,
             object_and_items_nullable_prop=object_and_items_nullable_prop,
             object_items_nullable=object_items_nullable,
-            _instantiation_metadata=_instantiation_metadata,
+            _configuration=_configuration,
             **kwargs,
         )
